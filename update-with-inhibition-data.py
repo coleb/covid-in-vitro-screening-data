@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+import os
 import sys
 import csv
 import pandas
@@ -46,6 +47,7 @@ data_to_merge = pandas.read_csv(sys.argv[1])
 data_to_merge['MERGE_IDX'] = data_to_merge['SMILES'].apply(best_match)
 
 merged = data_to_merge.merge(invitro_data, how='inner', left_on=['MERGE_IDX'], right_on=['IDX'])
+merged.to_csv(os.path.splitext(os.path.basename(sys.argv[1]))[0] + '-with-inhibition-index.csv')
 
 print('Found', len(merged), 'matches')
 
