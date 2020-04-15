@@ -60,3 +60,25 @@ CHEMBL_MAX_PHASE
 3                     61
 4                   1048
 
+
+
+The update-with-inhibition-data.py script can be used to cross
+reference computational predictions back to this experimental
+data. Run it in the following way:
+
+$ python update-with-inhibition-data.py computational-predictions.csv 'My_Awesome_Score'
+
+This will use the SMILES columns in each of the CSV files to match the
+molecules against each other. This match is done in a chemically
+reasonable way using the InChI string which provides a useful default
+standardization scheme for normalizing tautomers and protonation
+states that are usually necessary for computational predictions, but
+irrelevant in the experimental data. If an exact InChI match isn't
+found, a fallback InChI search is performed using the non-stereo
+layers of the InChI to disregard stereochemistry differences as
+well. A lot of 3D prediction tools need stereochemistry defined, and
+this information is retained through the SMILES strings, however, the
+original experimental data may have been against a racemate. The tool
+will output a .png file of the scatter plot between the 'Inhibition
+index' and whatever column is specified on the commandline as the
+computational score.
